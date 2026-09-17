@@ -1,0 +1,6 @@
+{
+  "name": "Kourawy",
+  "description": "Site vitrine officiel de Kourawy — Marque guinéenne de vêtements axée sur la qualité accessible, le confort, la durabilité et le style intemporel à Conakry, Guinée.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
