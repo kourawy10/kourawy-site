@@ -7,23 +7,27 @@ const defaultLocale = 'fr';
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Check if the pathname already starts with /fr or /en
+  // Vérifie si l'URL contient déjà une locale
   const pathnameHasLocale = locales.some(
-    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+    (locale) =>
+      pathname === `/${locale}` ||
+      pathname.startsWith(`/${locale}/`)
   );
 
+  // Si une locale est déjà présente, continuer normalement
   if (pathnameHasLocale) {
-    return;
+    return NextResponse.next();
   }
 
-  // Preserve user context and redirect to the default locale
-  request.nextUrl.pathname = `/${defaultLocale}${pathname}`;
-  return NextResponse.redirect(request.nextUrl);
+  // Sinon, rediriger vers la locale par défaut
+  const url = request.nextUrl.clone();
+  url.pathname = `/${defaultLocale}${pathname}`;
+
+  return NextResponse.redirect(url);
 }
 
 export const config = {
   matcher: [
-    // Exclude static assets, Next.js internal files, and general files
     '/((?!api|_next/static|_next/image|favicon.ico|favicon.svg|logo.svg|og-image.jpg|images|robots.txt|sitemap.xml|.*\\..*).*)',
   ],
 };
